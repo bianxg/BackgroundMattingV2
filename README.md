@@ -7,6 +7,8 @@ Official repository for the paper [Real-Time High-Resolution Background Matting]
 * [Visit project site](https://grail.cs.washington.edu/projects/background-matting-v2/)
 * [Watch project video](https://www.youtube.com/watch?v=oMfPTeYDF9g)
 
+**Disclaimer**: The video conversion script in this repo is not meant be real-time. Our research's main contribution is the neural architecture for high resolution refinement and the new matting datasets. The `inference_speed_test.py` script allows you to measure the tensor throughput of our model, which should achieve real-time. The `inference_video.py` script allows you to test your video on our model, but the video encoding and decoding is done without hardware acceleration and parallization. For production use, you are expected to do additional engineering for hardware encoding/decoding and loading frames to GPU in parallel. For more architecture detail, please refer to our paper.
+
 &nbsp;
 
 ## Overview
@@ -28,8 +30,11 @@ Official repository for the paper [Real-Time High-Resolution Background Matting]
 
 ## Updates
 
+* [Apr 21 2021] VideoMatte240K dataset is now published.
+* [Mar 06 2021] Training script is published.
+* [Feb 28 2021] Paper is accepted to CVPR 2021.
 * [Jan 09 2021] PhotoMatte85 dataset is now published.
-* [Dec 21 2020] We updated our project to MIT License, which permits commercial use!
+* [Dec 21 2020] We updated our project to MIT License, which permits commercial use.
 
 &nbsp;
 
@@ -47,8 +52,7 @@ Official repository for the paper [Real-Time High-Resolution Background Matting]
 
 ### Datasets
 
-* VideoMatte240K (Coming soon)
-* [PhotoMatte85](https://drive.google.com/file/d/1KpHKYW986Dax9-ZIM7I-HyBoWVcLPuaQ/view?usp=sharing)
+* [Download datasets](https://grail.cs.washington.edu/projects/background-matting-v2/#/datasets)
 
 &nbsp;
 
@@ -84,7 +88,7 @@ You can run our model using **PyTorch**, **TorchScript**, **TensorFlow**, and **
 
 ## Training
 
-Training code will be released upon acceptance of the paper.
+Configure `data_path.pth` to point to your dataset. The original paper uses `train_base.pth` to train only the base model till convergence then use `train_refine.pth` to train the entire network end-to-end. More details are specified in the paper.
 
 &nbsp;
 
