@@ -3,9 +3,9 @@ python inference_video.py --model-type mattingbase \
         --model-backbone-scale 0.25 \
         --model-refine-mode sampling \
         --model-refine-sample-pixels 80000 \
-        --model-checkpoint "./share/pytorch_mobilenetv2.pth" \
-        --video-src "./share/bxg2.mp4" \
-        --video-bgr "./share/bxg2.png" \
-        --output-dir "./output/" \
+        --model-checkpoint "/home/bxg/data/bg2/pytorch_mobilenetv2.pth" \
+        --video-src "/home/bxg/data/bg2/bxg2.mp4" \
+        --video-bgr "/home/bxg/data/bg2/bxg2.png" \
+        --output-dir "/home/bxg/data/bg2/output/" \
         --device cpu \
         --output-type com

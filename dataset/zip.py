@@ -5,6 +5,8 @@ class ZipDataset(Dataset):
     def __init__(self, datasets: List[Dataset], transforms=None, assert_equal_length=False):
         self.datasets = datasets
         self.transforms = transforms
+        for d in self.datasets:
+            print('d = ', len(d))
         
         if assert_equal_length:
             for i in range(1, len(datasets)):
