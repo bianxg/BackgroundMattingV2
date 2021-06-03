@@ -1,0 +1,14 @@
+python export_onnx.py \
+        --model-type mattingbase \
+        --model-checkpoint "/home/bxg/data/bg2/trained/pytorch_mobilenetv2.pth" \
+        --model-backbone mobilenetv2 \
+        --model-backbone-scale 0.25 \
+        --model-refine-mode sampling \
+        --model-refine-sample-pixels 5000 \
+        --model-refine-patch-crop-method roi_align \
+        --model-refine-patch-replace-method scatter_element \
+        --onnx-opset-version 11 \
+        --onnx-constant-folding \
+        --precision float32 \
+        --output "/home/bxg/data/bg2/trained/onnx_mobilenetv2_hd_base.onnx" \
+        --validate

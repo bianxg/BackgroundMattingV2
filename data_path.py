@@ -18,9 +18,8 @@ dataset to the list as long as it follows the format. 'fgr' should point to fore
         }
     }
 }
-"""
 
-DATA_PATH = {
+
     'videomatte240k': {
         'train': {
             'fgr': '/mnt/data/matting/VideoMatte240K_JPEG_SD/train/fgr',
@@ -64,5 +63,53 @@ DATA_PATH = {
     'backgrounds': {
         'train': '/mnt/data/matting/Backgrounds',
         'valid': '/mnt/data/matting/Backgrounds'
+    },
+}
+"""
+
+DATA_PATH = {
+    'videomatte240k': {
+        'train': {
+            'fgr': '/home/bxg/data/bg2/VideoMatte240K_JPEG_SD/train/fgr',
+            'pha': '/home/bxg/data/bg2/VideoMatte240K_JPEG_SD/train/pha'
+        },
+        'valid': {
+            'fgr': '/home/bxg/data/bg2/VideoMatte240K_JPEG_SD/test/fgr',
+            'pha': '/home/bxg/data/bg2/VideoMatte240K_JPEG_SD/test/pha'
+        }
+    },
+    'photomatte13k': {
+        'train': {
+            'fgr': 'PATH_TO_IMAGES_DIR',
+            'pha': 'PATH_TO_IMAGES_DIR'
+        },
+        'valid': {
+            'fgr': 'PATH_TO_IMAGES_DIR',
+            'pha': 'PATH_TO_IMAGES_DIR'
+        }
+    },
+    'distinction': {
+        'train': {
+            'fgr': 'PATH_TO_IMAGES_DIR',
+            'pha': 'PATH_TO_IMAGES_DIR',
+        },
+        'valid': {
+            'fgr': 'PATH_TO_IMAGES_DIR',
+            'pha': 'PATH_TO_IMAGES_DIR'
+        },
+    },
+    'adobe': {
+        'train': {
+            'fgr': 'PATH_TO_IMAGES_DIR',
+            'pha': 'PATH_TO_IMAGES_DIR',
+        },
+        'valid': {
+            'fgr': 'PATH_TO_IMAGES_DIR',
+            'pha': 'PATH_TO_IMAGES_DIR'
+        },
+    },
+    'backgrounds': {
+        'train': '/home/bxg/data/bg2/Backgrounds',
+        'valid': '/home/bxg/data/bg2/Backgrounds'
     },
 }

@@ -60,11 +60,11 @@ parser.add_argument('--log-train-images-interval', type=int, default=2000)
 parser.add_argument('--log-valid-interval', type=int, default=5000)
 
 parser.add_argument('--checkpoint-interval', type=int, default=5000)
-#parser.add_argument('--device', type=str, choices=['cpu', 'cuda'], default='cpu')
+parser.add_argument('--device', type=str, choices=['cpu', 'cuda'], default='cpu')
 
 args = parser.parse_args()
 
-#device = torch.device(args.device)
+device = torch.device(args.device)
 
 # --------------- Loading ---------------
 
@@ -123,9 +123,10 @@ def train():
                                   num_workers=args.num_workers)
 
     # Model
-    model = MattingBase(args.model_backbone).cuda()
-    #model = MattingBase(args.model_backbone).to(device)
-
+    #model = MattingBase(args.model_backbone).cuda()
+    model = MattingBase(args.model_backbone).to(device)
+    print(model)
+'''
     if args.model_last_checkpoint is not None:
         load_matched_state_dict(model, torch.load(args.model_last_checkpoint))
         #load_matched_state_dict(model, torch.load(args.model_last_checkpoint, map_location=device))
@@ -274,7 +275,7 @@ def valid(model, dataloader, writer, step):
     writer.add_scalar('valid_loss', loss_total / loss_count, step)
     model.train()
 
-
+'''
 # --------------- Start ---------------
 
 
