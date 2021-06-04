@@ -1,11 +1,11 @@
-python inference_video.py --model-type mattingbase \
-        --model-backbone mobilenetv2 \
+python inference_video.py --model-type mattingrefine \
+        --model-backbone resnet50 \
         --model-backbone-scale 0.25 \
-        --model-refine-mode sampling \
-        --model-refine-sample-pixels 5000 \
-        --model-checkpoint "/home/bxg/data/bg2/pytorch_mobilenetv2.pth" \
-        --video-src "/home/bxg/data/bg2/es2.mp4" \
-        --video-bgr "/home/bxg/data/bg2/es2.png" \
-        --output-dir "/home/bxg/data/bg2/output_es2/" \
-        --device cpu \
-        --output-type com
+        --model-refine-mode thresholding \
+        --model-refine-sample-pixels 80000 \
+        --model-checkpoint "/mnt/data/matting/pretrain/pytorch_resnet50.pth" \
+        --video-src "/mnt/work/home/bxg/input/bxg.mp4" \
+        --video-bgr "/mnt/work/home/bxg/input/bxg.png" \
+        --output-dir "/mnt/work/home/bxg/output/resnet50_bxg/" \
+        --device cuda \
+        --output-type com pha fgr

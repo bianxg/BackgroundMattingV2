@@ -60,17 +60,15 @@ parser.add_argument('--log-train-images-interval', type=int, default=2000)
 parser.add_argument('--log-valid-interval', type=int, default=5000)
 
 parser.add_argument('--checkpoint-interval', type=int, default=5000)
-parser.add_argument('--device', type=str, choices=['cpu', 'cuda'], default='cpu')
 
 args = parser.parse_args()
 
-device = torch.device(args.device)
 
 # --------------- Loading ---------------
 
 
 def train():
-
+    
     # Training DataLoader
     dataset_train = ZipDataset([
         ZipDataset([
@@ -93,14 +91,12 @@ def train():
             T.ToTensor()
         ])),
     ])
-    print('dataset_train: ',dataset_train.__len__())
     dataloader_train = DataLoader(dataset_train,
                                   shuffle=True,
                                   batch_size=args.batch_size,
                                   num_workers=args.num_workers,
                                   pin_memory=True)
-    print('dataloader_train: ',type(dataloader_train))
-
+    
     # Validation DataLoader
     dataset_valid = ZipDataset([
         ZipDataset([
@@ -115,7 +111,6 @@ def train():
             T.ToTensor()
         ])),
     ])
-    print('dataset_valid: ',dataset_valid.__len__())
     dataset_valid = SampleDataset(dataset_valid, 50)
     dataloader_valid = DataLoader(dataset_valid,
                                   pin_memory=True,
@@ -123,16 +118,12 @@ def train():
                                   num_workers=args.num_workers)
 
     # Model
-    #model = MattingBase(args.model_backbone).cuda()
-    model = MattingBase(args.model_backbone).to(device)
-    print(model)
-'''
+    model = MattingBase(args.model_backbone).cuda()
+
     if args.model_last_checkpoint is not None:
         load_matched_state_dict(model, torch.load(args.model_last_checkpoint))
-        #load_matched_state_dict(model, torch.load(args.model_last_checkpoint, map_location=device))
     elif args.model_pretrain_initialization is not None:
         model.load_pretrained_deeplabv3_state_dict(torch.load(args.model_pretrain_initialization)['model_state'])
-        #model.load_pretrained_deeplabv3_state_dict(torch.load(args.model_pretrain_initialization, map_location=device)['model_state'])
 
     optimizer = Adam([
         {'params': model.backbone.parameters(), 'lr': 1e-4},
@@ -154,11 +145,6 @@ def train():
             true_pha = true_pha.cuda(non_blocking=True)
             true_fgr = true_fgr.cuda(non_blocking=True)
             true_bgr = true_bgr.cuda(non_blocking=True)
-
-            #true_pha = true_pha.to(device, non_blocking=True)
-            #true_fgr = true_fgr.to(device, non_blocking=True)
-            #true_bgr = true_bgr.to(device, non_blocking=True)
-
             true_pha, true_fgr, true_bgr = random_crop(true_pha, true_fgr, true_bgr)
             
             true_src = true_bgr.clone()
@@ -261,10 +247,6 @@ def valid(model, dataloader, writer, step):
             true_pha = true_pha.cuda(non_blocking=True)
             true_fgr = true_fgr.cuda(non_blocking=True)
             true_bgr = true_bgr.cuda(non_blocking=True)
-
-            #true_pha = true_pha.to(device, non_blocking=True)
-            #true_fgr = true_fgr.to(device, non_blocking=True)
-            #true_bgr = true_bgr.to(device, non_blocking=True)
             true_src = true_pha * true_fgr + (1 - true_pha) * true_bgr
 
             pred_pha, pred_fgr, pred_err = model(true_src, true_bgr)[:3]
@@ -275,7 +257,7 @@ def valid(model, dataloader, writer, step):
     writer.add_scalar('valid_loss', loss_total / loss_count, step)
     model.train()
 
-'''
+
 # --------------- Start ---------------
 
 
