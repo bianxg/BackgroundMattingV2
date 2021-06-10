@@ -65,8 +65,8 @@ args = parser.parse_args()
 
 
 # --------------- Loading ---------------
-IMG_SIZE = 2048
-MIN_SIZE = 1024
+IMG_SIZE = 512
+MIN_SIZE = 256
 
 def train():
     
