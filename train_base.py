@@ -65,7 +65,8 @@ args = parser.parse_args()
 
 
 # --------------- Loading ---------------
-
+IMG_SIZE = 2048
+MIN_SIZE = 1024
 
 def train():
     
@@ -75,7 +76,7 @@ def train():
             ImagesDataset(DATA_PATH[args.dataset_name]['train']['pha'], mode='L'),
             ImagesDataset(DATA_PATH[args.dataset_name]['train']['fgr'], mode='RGB'),
         ], transforms=A.PairCompose([
-            A.PairRandomAffineAndResize((512, 512), degrees=(-5, 5), translate=(0.1, 0.1), scale=(0.4, 1), shear=(-5, 5)),
+            A.PairRandomAffineAndResize((IMG_SIZE, IMG_SIZE), degrees=(-5, 5), translate=(0.1, 0.1), scale=(0.4, 1), shear=(-5, 5)),
             A.PairRandomHorizontalFlip(),
             A.PairRandomBoxBlur(0.1, 5),
             A.PairRandomSharpen(0.1),
@@ -83,7 +84,7 @@ def train():
             A.PairApply(T.ToTensor())
         ]), assert_equal_length=True),
         ImagesDataset(DATA_PATH['backgrounds']['train'], mode='RGB', transforms=T.Compose([
-            A.RandomAffineAndResize((512, 512), degrees=(-5, 5), translate=(0.1, 0.1), scale=(1, 2), shear=(-5, 5)),
+            A.RandomAffineAndResize((IMG_SIZE, IMG_SIZE), degrees=(-5, 5), translate=(0.1, 0.1), scale=(1, 2), shear=(-5, 5)),
             T.RandomHorizontalFlip(),
             A.RandomBoxBlur(0.1, 5),
             A.RandomSharpen(0.1),
@@ -103,11 +104,11 @@ def train():
             ImagesDataset(DATA_PATH[args.dataset_name]['valid']['pha'], mode='L'),
             ImagesDataset(DATA_PATH[args.dataset_name]['valid']['fgr'], mode='RGB')
         ], transforms=A.PairCompose([
-            A.PairRandomAffineAndResize((512, 512), degrees=(-5, 5), translate=(0.1, 0.1), scale=(0.3, 1), shear=(-5, 5)),
+            A.PairRandomAffineAndResize((IMG_SIZE, IMG_SIZE), degrees=(-5, 5), translate=(0.1, 0.1), scale=(0.3, 1), shear=(-5, 5)),
             A.PairApply(T.ToTensor())
         ]), assert_equal_length=True),
         ImagesDataset(DATA_PATH['backgrounds']['valid'], mode='RGB', transforms=T.Compose([
-            A.RandomAffineAndResize((512, 512), degrees=(-5, 5), translate=(0.1, 0.1), scale=(1, 1.2), shear=(-5, 5)),
+            A.RandomAffineAndResize((IMG_SIZE, IMG_SIZE), degrees=(-5, 5), translate=(0.1, 0.1), scale=(1, 1.2), shear=(-5, 5)),
             T.ToTensor()
         ])),
     ])
@@ -226,8 +227,8 @@ def compute_loss(pred_pha, pred_fgr, pred_err, true_pha, true_fgr):
 
 
 def random_crop(*imgs):
-    w = random.choice(range(256, 512))
-    h = random.choice(range(256, 512))
+    w = random.choice(range(MIN_SIZE, IMG_SIZE))
+    h = random.choice(range(MIN_SIZE, IMG_SIZE))
     results = []
     for img in imgs:
         img = kornia.resize(img, (max(h, w), max(h, w)))
